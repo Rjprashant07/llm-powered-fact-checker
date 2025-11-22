@@ -70,19 +70,18 @@ Returns:
 ## 🏗️ Architecture
 
 User Input
-     │
-     ▼
+│
+▼
 Claim Extraction (spaCy)
-     │
-     ▼
-Semantic Retrieval (Chroma + Multilingual Embeddings)
-     │
-     ▼
-LLM Comparison (Mistral 7B Instruct)
-     │
-     ▼
-Structured Output (verdict + reasoning + evidence)
-
+│
+▼
+Semantic Retrieval (ChromaDB + Embeddings)
+│
+▼
+LLM Comparison (Mistral 7B)
+│
+▼
+Streamlit UI
 
 
 
@@ -90,50 +89,16 @@ Structured Output (verdict + reasoning + evidence)
 
 fact-checker/
 │
-├── pipeline.py          # Complete backend RAG logic
-├── facts.txt            # Verified fact database
-├── requirements.txt     # Dependencies
+├── main.py # Streamlit UI
+├── pipeline.py # RAG backend logic
+├── facts.txt # Verified fact database
+├── requirements.txt # Dependencies
 └── README.md
 
 
 
 
 ---
-
-## 📸 Screenshots
-
-Below are some screenshots showing how the fact-checker system works.
-
----
-
-### 🖥️ Example Input and output
-<img src="Screenshot 2025-11-22 203008.png" width="700">
-
----
-
-### 📊 Example Input and output
-<img src="Screenshot 2025-11-22 203059.png" width="700">
-
----
-
-### 🧠 Example Input and output
-<img src="Screenshot 2025-11-22 203346.png" width="700">
-
-### 🧠 Example Input and output
-<img src="Screenshot 2025-11-22 204133.png" width="700">
-
-### 🧠 Example Input and output
-<img src="Screenshot 2025-11-22 204347.png" width="700">
-
-### 🧠 Example Input and output
-<img src="Screenshot 2025-11-22 204544.png" width="700">
----
-
-  
-
-
-
-
 
 
 ## ⚙️ Installation (Local)
