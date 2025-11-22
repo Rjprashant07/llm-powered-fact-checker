@@ -72,36 +72,37 @@ Returns:
 The project implements a complete **Retrieval-Augmented Generation (RAG)** pipeline for multilingual fact-checking (Hindi + English).  
 Below is the high-level architecture of the system:
 
-
+```text
 ┌──────────────────────────────┐
-│ User Input │
-│ (Hindi or English Text) │
+│          User Input          │
+│    (Hindi or English Text)   │
 └───────────────┬──────────────┘
-│
-▼
+                │
+                ▼
 ┌──────────────────────────────┐
-│ Claim Extraction │
-│ (spaCy Multilingual) │
+│       Claim Extraction        │
+│      (spaCy Multilingual)     │
 └───────────────┬──────────────┘
-│ Extracted Claims
-▼
+                │ Extracted Claims
+                ▼
 ┌──────────────────────────────┐
-│ Semantic Vector Retrieval │
-│ (ChromaDB + Embeddings) │
+│   Semantic Vector Retrieval   │
+│    (ChromaDB + Embeddings)    │
 └───────────────┬──────────────┘
-│ Top-K Relevant Facts
-▼
+                │ Top-K Relevant Facts
+                ▼
 ┌──────────────────────────────┐
-│ LLM Reasoning & │
-│ Claim–Fact Comparison │
-│ (Mistral 7B Instruct) │
+│      LLM Reasoning &         │
+│   Claim–Fact Comparison       │
+│    (Mistral 7B Instruct)      │
 └───────────────┬──────────────┘
-│ Verdict + Evidence
-▼
+                │ Verdict + Evidence
+                ▼
 ┌──────────────────────────────┐
-│ Final Output JSON │
-│ Verdict | Reasoning | Evidence│
+│        Final Output JSON      │
+│  Verdict | Reasoning | Evidence |
 └──────────────────────────────┘
+
 
 
 ### 🔍 Detailed Architecture Components
@@ -142,7 +143,6 @@ Below is the high-level architecture of the system:
   "evidence": ["fact_003"],
   "evidence_texts": ["..."]
 }
-
 
 
 ## ⚙️ Installation (Local)
