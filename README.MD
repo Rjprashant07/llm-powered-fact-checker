@@ -67,46 +67,90 @@ Returns:
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ System Architecture
 
-User Input
+The project implements a complete **Retrieval-Augmented Generation (RAG)** pipeline for multilingual fact-checking (Hindi + English).  
+Below is the high-level architecture of the system:
+
+
+┌──────────────────────────────┐
+│ User Input │
+│ (Hindi or English Text) │
+└───────────────┬──────────────┘
 │
 ▼
-Claim Extraction (spaCy)
-│
+┌──────────────────────────────┐
+│ Claim Extraction │
+│ (spaCy Multilingual) │
+└───────────────┬──────────────┘
+│ Extracted Claims
 ▼
-Semantic Retrieval (ChromaDB + Embeddings)
-│
+┌──────────────────────────────┐
+│ Semantic Vector Retrieval │
+│ (ChromaDB + Embeddings) │
+└───────────────┬──────────────┘
+│ Top-K Relevant Facts
 ▼
-LLM Comparison (Mistral 7B)
-│
+┌──────────────────────────────┐
+│ LLM Reasoning & │
+│ Claim–Fact Comparison │
+│ (Mistral 7B Instruct) │
+└───────────────┬──────────────┘
+│ Verdict + Evidence
 ▼
-Streamlit UI
+┌──────────────────────────────┐
+│ Final Output JSON │
+│ Verdict | Reasoning | Evidence│
+└──────────────────────────────┘
 
 
+### 🔍 Detailed Architecture Components
 
-## 📁 Project Structure
+#### **1️⃣ Claim Extraction**
+- Uses **spaCy `xx_sent_ud_sm`** multilingual model  
+- Splits input into sentences  
+- Handles **Hindi + English**  
+- Each sentence becomes a claim  
 
-fact-checker/
-│
-├── main.py # Streamlit UI
-├── pipeline.py # RAG backend logic
-├── facts.txt # Verified fact database
-├── requirements.txt # Dependencies
-└── README.md
+#### **2️⃣ Trusted Fact Base**
+- Facts stored in `facts.txt`  
+- Facts may span multiple lines  
+- Each fact separated by a blank line  
+- Assigned unique IDs (`fact_001`, `fact_002`, …)  
 
+#### **3️⃣ Embeddings & Vector Database**
+- Uses **sentence-transformers (multilingual)** to embed facts  
+- Stores embeddings in **ChromaDB**  
+- Retrieves **Top-K** most semantically similar facts per claim  
 
+#### **4️⃣ LLM Reasoning**
+- **Mistral 7B Instruct (4-bit)** performs deeper analysis  
+- Compares claim vs. retrieved facts  
+- Outputs structured JSON with:  
+  - `verdict`  
+  - `evidence` (fact IDs)  
+  - `reasoning`  
 
+#### **5️⃣ Structured Final Output**
+- Evidence IDs mapped back to fact statements  
+- System generates final JSON:
 
----
+```json
+{
+  "verdict": "Likely True",
+  "reasoning": "The retrieved facts support the claim.",
+  "evidence": ["fact_003"],
+  "evidence_texts": ["..."]
+}
+
 
 
 ## ⚙️ Installation (Local)
+1. Clone the repository
 
-### 1. Clone the repository
-```bash
 git clone https://github.com/Rjprashant07/llm-powered-fact-checker.git
 cd llm-powered-fact-checker
+
 
 pip install -r requirements.txt
 python -m spacy download xx_sent_ud_sm
